@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>𝐋𝐎𝐕𝐈𝐍𝐆 𝐅𝐀𝐌𝐈𝐋𝐘 - اقتراحات الديسكورد</title>
+  <!-- أيقونة المتصفح -->
+  <link
+    rel="icon"
+    type="image/png"
+    href="https://cdn.discordapp.com/icons/1326599180788957285/599385d954b441d7ccc5c8ad07d6ca5b.png?size=1024"
+  />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: var(--background-color, #f0f2f5);
+      color: var(--text-color, #000);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    header {
+      text-align: center;
+      background-color: #5865F2;
+      color: white;
+      padding: 15px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 700px;
+      position: relative;
+    }
+    h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+    .controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      gap: 10px;
+    }
+    .controls button {
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    a.discord-link {
+      background-color: #404ecb;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 10px;
+      display: inline-block;
+    }
+    .container {
+      width: 100%;
+      max-width: 700px;
+    }
+    .login-form, form {
+      background-color: var(--form-bg, #fff);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    input[type="text"], input[type="password"], input[type="file"], textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    button {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.2s ease;
+    }
+    button:hover {
+      background-color: #45a049;
+      transform: scale(1.05);
+    }
+    .message {
+      display: none;
+      padding: 10px;
+      background-color: #dff0d8;
+      color: #3c763d;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 10px;
+    }
+    ul.suggestions {
+      list-style: none;
+      padding: 0;
+    }
+    .suggestion {
+      background: var(--form-bg, #fff);
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    .suggestion img {
+      max-width: 100%;
+      margin-top: 10px;
+      border-radius: 8px;
+      display: block;
+    }
+    .delete-button, .edit-button {
+      position: absolute;
+      top: 10px;
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 6px;
+      display: none;
+      cursor: pointer;
+      color: #fff;
+      border: none;
+    }
+    .delete-button {
+      background-color: #e74c3c;
+      right: 10px;
+    }
+    .edit-button {
+      background-color: #3498db;
+      right: 60px;
+    }
+    .delete-button.show, .edit-button.show {
+      display: block;
+    }
+    #deleteAllBtn {
+      background-color: #e74c3c;
+      color: #fff;
+      font-size: 14px;
+      margin-bottom: 10px;
+      display: none;
+    }
+    footer {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #888;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>𝐋𝐎𝐕𝐈𝐍𝐆 𝐅𝐀𝐌𝐈𝐋𝐘</h1>
+    <div class="controls">
+      <button onclick="toggleTheme()">🎨 تبديل الخلفية</button>
+      <button onclick="logout()">🚪 تسجيل الخروج</button>
+    </div>
+    <a class="discord-link" href="https://discord.gg/HYAEu3zK" target="_blank">🎮 انضم لسيرفر الديسكورد</a>
+  </header>
+
+  <div class="container">
+    <!-- قسم تسجيل الدخول -->
+    <div class="login-form" id="loginSection">
+      <h2>🔑 تسجيل الدخول</h2>
+      <input type="text" id="loginUsername" placeholder="اسم المستخدم" required />
+      <input type="password" id="loginPassword" placeholder="كلمة المرور" required />
+      <button onclick="login()">دخول</button>
+    </div>
+
+    <!-- قسم الاقتراحات (يظهر بعد تسجيل الدخول) -->
+    <div id="memberSection" style="display:none;">
+      <h2>💡 اكتب اقتراحك:</h2>
+      <form id="suggestionForm">
+        <input type="text" id="usernameInput" placeholder="اسمك (اختياري)" />
+        <!-- حقل اختيار ملف (صورة) -->
+        <input type="file" id="imageInput" accept="image/*" />
+        <textarea id="suggestionInput" placeholder="اكتب اقتراحك هنا..." required></textarea>
+        <button type="submit">إرسال</button>
+      </form>
+      <div class="message" id="successMessage">✅ تم حفظ اقتراحك بنجاح!</div>
+
+      <!-- زر حذف جميع الاقتراحات (يظهر فقط للأدمن) -->
+      <button id="deleteAllBtn" onclick="deleteAllSuggestions()">🗑️ حذف جميع الاقتراحات</button>
+
+      <h2>📋 جميع الاقتراحات:</h2>
+      <ul id="suggestionsList" class="suggestions"></ul>
+    </div>
+  </div>
+
+  <footer>جميع الحقوق محفوظة لـ 𝐋𝐎𝐕𝐈𝐍𝐆 𝐅𝐀𝐌𝐈𝐋𝐘 © 2025</footer>
+
+  <script>
+    // الحسابات الإدارية مع كلمات المرور
+    const admins = {
+      'mechaoui22': 'pass22',
+      'mechaoui': 'pass11',
+      'عبد الله': 'abd1234'
+    };
+
+    let currentUser = null;
+    let userRole = 'user'; // افتراضيًا المستخدم عادي
+
+    // عند تحميل الصفحة
+    window.onload = function () {
+      // تحميل الاقتراحات السابقة وتطبيق الثيم
+      const savedSuggestions = JSON.parse(localStorage.getItem('suggestionsForever')) || [];
+      const theme = localStorage.getItem('theme') || 'light';
+      applyTheme(theme);
+
+      savedSuggestions.forEach(addSuggestionToList);
+    };
+
+    // دالة تسجيل الدخول
+    function login() {
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+
+      // إذا كان اسم المستخدم موجودًا ضمن الحسابات الإدارية
+      if (admins.hasOwnProperty(username)) {
+        // يجب التحقق من كلمة المرور
+        if (admins[username] === password) {
+          currentUser = username;
+          userRole = 'admin'; // تعيين الدور كـ admin
+          alert(`✅ مرحبًا ${currentUser}! تم تسجيل الدخول كمسؤول.`);
+        } else {
+          alert("🚫 اسم المستخدم أو كلمة المرور غير صحيحة.");
+          return;
+        }
+      } else {
+        // أي مستخدم آخر يدخل بأي كلمة مرور
+        currentUser = username;
+        userRole = 'user'; // مستخدم عادي
+        alert(`✅ مرحبًا ${currentUser}! تم تسجيل الدخول كمستخدم عادي.`);
+      }
+
+      // إخفاء قسم تسجيل الدخول وعرض قسم الاقتراحات
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('memberSection').style.display = 'block';
+
+      // حفظ اسم المستخدم والدور في التخزين المحلي (اختياري)
+      localStorage.setItem('currentUser', currentUser);
+      localStorage.setItem('userRole', userRole);
+
+      // تحديث أزرار الحذف وغيرها بناءً على الدور
+      updateDeleteButtons();
+      showOrHideDeleteAllBtn();
+    }
+
+    // دالة تسجيل الخروج
+    function logout() {
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('userRole');
+      currentUser = null;
+      userRole = 'user'; // العودة لحالة المستخدم العادي
+      document.getElementById('loginSection').style.display = 'block';
+      document.getElementById('memberSection').style.display = 'none';
+      alert('🚪 تم تسجيل الخروج بنجاح.');
+    }
+
+    // نموذج إرسال الاقتراح
+    document.getElementById('suggestionForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const text = document.getElementById('suggestionInput').value.trim();
+      const user = document.getElementById('usernameInput').value.trim() || "مجهول";
+      const imageFile = document.getElementById('imageInput').files[0];
+
+      // تحويل الصورة إلى Base64 إذا وجدت
+      let imageBase64 = null;
+      if (imageFile) {
+        imageBase64 = await toBase64(imageFile);
+      }
+
+      if (text) {
+        const suggestion = {
+          text,
+          user,
+          date: new Date().toLocaleString('ar-EG'),
+          image: imageBase64, // قد تكون null
+        };
+        addSuggestionToList(suggestion);
+        saveSuggestionForever(suggestion);
+        showSuccessMessage();
+
+        // إعادة ضبط الحقول
+        document.getElementById('suggestionInput').value = '';
+        document.getElementById('usernameInput').value = '';
+        document.getElementById('imageInput').value = '';
+      }
+    });
+
+    // تحويل ملف إلى Base64
+    function toBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+      });
+    }
+
+    // حفظ الاقتراح في التخزين
+    function saveSuggestionForever(suggestion) {
+      const suggestions = JSON.parse(localStorage.getItem('suggestionsForever')) || [];
+      suggestions.unshift(suggestion);
+      localStorage.setItem('suggestionsForever', JSON.stringify(suggestions));
+    }
+
+    // إضافة الاقتراح إلى القائمة
+    function addSuggestionToList(suggestion) {
+      const li = document.createElement('li');
+      li.className = 'suggestion';
+
+      let imgTag = '';
+      if (suggestion.image) {
+        // إذا كان هناك صورة مرفقة
+        imgTag = `<img src="${suggestion.image}" alt="صورة الاقتراح" />`;
+      }
+
+      li.innerHTML = `
+        <div class="info">
+          <span>👤 ${suggestion.user}</span>
+          <span>📅 ${suggestion.date}</span>
+        </div>
+        <p>${suggestion.text}</p>
+        ${imgTag}
+        <button class="edit-button">✏️ تعديل</button>
+        <button class="delete-button">🗑️ حذف</button>
+      `;
+
+      // زر التعديل
+      li.querySelector('.edit-button').addEventListener('click', () => {
+        if (userRole === 'admin') {
+          editSuggestion(li);
+        } else {
+          alert("🚫 ليس لديك صلاحية التعديل.");
+        }
+      });
+
+      // زر الحذف
+      li.querySelector('.delete-button').addEventListener('click', () => {
+        if (userRole === 'admin') {
+          if (confirm("⚠️ هل أنت متأكد من حذف الاقتراح؟")) {
+            deleteSuggestion(li);
+          }
+        } else {
+          alert("🚫 ليس لديك صلاحية الحذف.");
+        }
+      });
+
+      document.getElementById('suggestionsList').prepend(li);
+      updateDeleteButtons();
+    }
+
+    // تعديل نص الاقتراح
+    function editSuggestion(listItem) {
+      const oldText = listItem.querySelector('p').innerText;
+      const newText = prompt("اكتب النص الجديد للاقتراح:", oldText);
+      if (newText !== null && newText.trim() !== "") {
+        // حدّث في الصفحة
+        listItem.querySelector('p').innerText = newText;
+
+        // حدّث في التخزين
+        let suggestions = JSON.parse(localStorage.getItem('suggestionsForever')) || [];
+        const index = suggestions.findIndex(s => s.text === oldText);
+        if (index !== -1) {
+          suggestions[index].text = newText;
+          localStorage.setItem('suggestionsForever', JSON.stringify(suggestions));
+        }
+      }
+    }
+
+    // حذف الاقتراح
+    function deleteSuggestion(element) {
+      const text = element.querySelector('p').innerText;
+      let suggestions = JSON.parse(localStorage.getItem('suggestionsForever')) || [];
+      // البحث عن العنصر المطابق (قد يوجد مشكلة لو عدة اقتراحات بنفس النص)
+      // لكن سنكتفي بأول تطابق
+      const index = suggestions.findIndex(s => s.text === text);
+      if (index !== -1) {
+        suggestions.splice(index, 1);
+        localStorage.setItem('suggestionsForever', JSON.stringify(suggestions));
+      }
+      element.remove();
+    }
+
+    // حذف جميع الاقتراحات (فقط للأدمن)
+    function deleteAllSuggestions() {
+      if (userRole === 'admin') {
+        if (confirm("⚠️ هل أنت متأكد من حذف جميع الاقتراحات؟")) {
+          localStorage.removeItem('suggestionsForever');
+          document.getElementById('suggestionsList').innerHTML = '';
+          alert("✅ تم حذف جميع الاقتراحات.");
+        }
+      } else {
+        alert("🚫 ليس لديك صلاحية حذف الجميع.");
+      }
+    }
+
+    // تحديث زر الحذف والتعديل بناءً على الدور
+    function updateDeleteButtons() {
+      document.querySelectorAll('.delete-button').forEach(btn => {
+        userRole === 'admin'
+          ? btn.classList.add('show')
+          : btn.classList.remove('show');
+      });
+      document.querySelectorAll('.edit-button').forEach(btn => {
+        userRole === 'admin'
+          ? btn.classList.add('show')
+          : btn.classList.remove('show');
+      });
+    }
+
+    // إظهار أو إخفاء زر حذف الجميع
+    function showOrHideDeleteAllBtn() {
+      const deleteAllBtn = document.getElementById('deleteAllBtn');
+      if (userRole === 'admin') {
+        deleteAllBtn.style.display = 'inline-block';
+      } else {
+        deleteAllBtn.style.display = 'none';
+      }
+    }
+
+    // إظهار رسالة نجاح عند إضافة الاقتراح
+    function showSuccessMessage() {
+      const msg = document.getElementById('successMessage');
+      msg.style.display = 'block';
+      setTimeout(() => msg.style.display = 'none', 3000);
+    }
+
+    // تبديل الثيم (أبيض / أسود)
+    function toggleTheme() {
+      const currentTheme = localStorage.getItem('theme') || 'light';
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      applyTheme(newTheme);
+      localStorage.setItem('theme', newTheme);
+    }
+
+    // تطبيق الثيم المختار
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.documentElement.style.setProperty('--background-color', '#18191a');
+        document.documentElement.style.setProperty('--form-bg', '#242526');
+        document.documentElement.style.setProperty('--text-color', '#e4e6eb');
+      } else {
+        document.documentElement.style.setProperty('--background-color', '#f0f2f5');
+        document.documentElement.style.setProperty('--form-bg', '#fff');
+        document.documentElement.style.setProperty('--text-color', '#000');
+      }
+    }
+  </script>
+</body>
+</html>
